@@ -2,22 +2,18 @@
 
 This Dockerfile will build a Docker image of ElastAlert. It is based on https://github.com/jertel/elastalert-docker
 
-## Staleness
+## Docker Hub and staleness
 
-This image is certainly going to become stale over time. If you notice it has gone stale and needs rebuilt, you are welcome to create an issue at https://github.com/selivan/elastalert-docker and I'll trigger the automated build over at Docker Hub. Or just fork it and build your fresh image on Docker Hub.
-
-## Docker Hub
-
-The pre-built image is available at
+The pre-built image is available at https://hub.docker.com/r/selivan/elastalert-docker. It is certainly going to become stale over time, so it is easier to build a fresh image localy.
 
 ## Building Locally
 
 To build, install Docker and then run the following command:
 
 ```
-docker build . -t elastalert
+docker build . -t elastalert-docker
 ```
 
 ## Running
 
-Executable name (one of elastalert|elastalert-create-index|elastalert-test-rule) should be the first parameter, `--config` option is always present and other parameters are passed as they are.
+Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/config/elastalert_config.yaml` option is always present and other parameters are passed as they are.
