@@ -1,18 +1,23 @@
 # ElastAlert-Docker
 
-This Dockerfile will build a Docker image that works with the existing elastalert chart, hosted in the Kubernetes chart repository: https://github.com/helm/charts/tree/master/stable/elastalert
+This Dockerfile will build a Docker image of ElastAlert. It is based on https://github.com/jertel/elastalert-docker
 
 ## Staleness
-This image is certainly going to become stale over time. If you notice it has gone stale and needs rebuilt, you are welcome to send me a quick note at jertel at codesim.com and I'll trigger the automated build over at Docker Hub.
+
+This image is certainly going to become stale over time. If you notice it has gone stale and needs rebuilt, you are welcome to create an issue at https://github.com/selivan/elastalert-docker and I'll trigger the automated build over at Docker Hub. Or just fork it and build your fresh image on Docker Hub.
 
 ## Docker Hub
 
-The official pre-built image is available at https://hub.docker.com/r/jertel/elastalert-docker.
+The pre-built image is available at
 
 ## Building Locally
 
 To build, install Docker and then run the following command:
+
 ```
 docker build . -t elastalert
 ```
 
+## Running
+
+Executable name (one of elastalert|elastalert-create-index|elastalert-test-rule) should be the first parameter, `--config` option is always present and other parameters are passed as they are.

@@ -1,7 +1,7 @@
 FROM python:3.6-alpine
 
-LABEL description="ElastAlert suitable for Kubernetes and Helm"
-LABEL maintainer="Jason Ertel (jertel at codesim.com)"
+LABEL description="ElastAlert based on image by Jason Ertel (jertel at codesim.com)"
+LABEL maintainer="Pavel Selivanov(https://github.com/selivan)"
 
 ARG ELASTALERT_VERSION=0.2.1
 
@@ -10,14 +10,15 @@ RUN apk --update upgrade && \
     rm -rf /var/cache/apk/*
 
 RUN pip install elastalert==${ELASTALERT_VERSION} && \
+    rm -fr /root/.pip/cache && \
     apk del gcc libffi-dev musl-dev python-dev openssl-dev
 
 RUN mkdir -p /opt/elastalert/config && \
-    mkdir -p /opt/elastalert/rules && \
-    echo "#!/bin/sh" >> /opt/elastalert/run.sh && \
-    echo "elastalert-create-index --config /opt/config/elastalert_config.yaml" >> /opt/elastalert/run.sh && \
-    echo "exec elastalert --config /opt/config/elastalert_config.yaml \"\$@\"" >> /opt/elastalert/run.sh && \
-    chmod +x /opt/elastalert/run.sh
+    mkdir -p /opt/elastalert/rules
+
+ADD run.sh /opt/elastalert/run.sh
+
+RUN chmod a+x /opt/elastalert/run.sh
 
 ENV TZ "UTC"
 
