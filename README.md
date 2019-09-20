@@ -23,10 +23,13 @@ I suggest to invoke `docker run` with `--init` option, that will properly forwar
 ### docker run
 
 ```bash
+# Create user to run container
 adduser --disabled-password --home /nowhere --no-create-home elastalert
+# Create elastalert writeback index
 docker run --init --user $(id -u elastalert) -v /etc/elastalert:/opt/elastalert/config -v /etc/elastalert/rules:/opt/elastalert/rules --rm selivan/elastalert-docker elastalert-create-index
 # See possible options
 docker run --init --user $(id -u elastalert) --rm selivan/elastalert-docker elastalert --help
+# Run elastalert
 docker run --init --user $(id -u elastalert) --restart=unless-stopped --name elastalert-docker -v /etc/elastalert:/opt/elastalert/config -v /etc/elastalert/rules:/opt/elastalert/rules -d selivan/elastalert-docker elastalert --pin_rules --start NOW
 ```
 
