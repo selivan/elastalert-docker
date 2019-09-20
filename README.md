@@ -42,7 +42,7 @@ services:
     #network: host
     init: true
     # Get by command: id -u elastalert
-    user: 1002
+    user: "1002"
     restart: unless-stopped
     image: selivan/elastalert-docker
     command: --pin_rules --start NOW
