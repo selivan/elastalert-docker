@@ -22,6 +22,6 @@ RUN chmod a+x /opt/elastalert/run.sh
 
 ENV TZ "UTC"
 
-VOLUME [ "/opt/config", "/opt/rules" ]
+VOLUME [ "/opt/elastalert/config", "/opt/rules" ]
 WORKDIR /opt/elastalert
 ENTRYPOINT ["/opt/elastalert/run.sh"]

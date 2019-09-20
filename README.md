@@ -6,7 +6,7 @@ This Dockerfile will build a Docker image of ElastAlert. It is based on https://
 
 The pre-built image is available at https://hub.docker.com/r/selivan/elastalert-docker. It is certainly going to become stale over time, so it is easier to build a fresh image localy.
 
-## Building Locally
+## Building localy
 
 To build, install Docker and then run the following command:
 
@@ -19,3 +19,36 @@ docker build -t elastalert-docker --build-arg ELASTALERT_VERSION=0.2.1 .
 Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/config/elastalert_config.yaml` option is always present and other parameters are passed as they are.
 
 I suggest to invoke `docker run` with `--init` option, that will properly forward signals and reap zombie processes(see [docs](https://docs.docker.com/compose/compose-file/#init)).
+
+### docker run
+
+```bash
+adduser --disabled-password --home /nowhere --no-create-home elastalert
+docker run --init --user elastalert --rm selivan/elastalert-docker elastalert-create-index
+# See possible options
+docker run --init --user elastalert --rm selivan/elastalert-docker elastalert --help
+docker run --init --user elastalert --restart=unless-stopped --name elastalert-docker -v /etc/elastalert:/opt/elastalert/config -v /etc/elastalert/rules:/opt/elastalert/rules -d selivan/elastalert-docker elastalert --pin_rules
+```
+
+### docker-compose
+
+`docker-compose.yml`:
+
+```yaml
+version: '3'
+services:
+  elastalert-docker:
+    init: true
+    user: elastalert
+    restart: unless-stopped
+    image: selivan/elastalert-docker
+    volumes:
+      - /etc/elastalert:/opt/elastalert/config
+      - /etc/elastalert/rules:/opt/elastalert/rules
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+        compress: "true"
+```
