@@ -16,7 +16,7 @@ docker build -t elastalert-docker --build-arg ELASTALERT_VERSION=0.2.1 .
 
 ## Running
 
-Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/config/elastalert_config.yaml` option is always present and other parameters are passed as they are.
+Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/config/config.yaml` option is always present and other parameters are passed as they are.
 
 I suggest to invoke `docker run` with `--init` option, that will properly forward signals and reap zombie processes(see [docs](https://docs.docker.com/compose/compose-file/#init)).
 
@@ -24,10 +24,10 @@ I suggest to invoke `docker run` with `--init` option, that will properly forwar
 
 ```bash
 adduser --disabled-password --home /nowhere --no-create-home elastalert
-docker run --init --user elastalert --rm selivan/elastalert-docker elastalert-create-index
+docker run --init --user $(id -u elastalert) --rm selivan/elastalert-docker elastalert-create-index
 # See possible options
-docker run --init --user elastalert --rm selivan/elastalert-docker elastalert --help
-docker run --init --user elastalert --restart=unless-stopped --name elastalert-docker -v /etc/elastalert:/opt/elastalert/config -v /etc/elastalert/rules:/opt/elastalert/rules -d selivan/elastalert-docker elastalert --pin_rules
+docker run --init --user $(id -u elastalert) --rm selivan/elastalert-docker elastalert --help
+docker run --init --user $(id -u elastalert) --restart=unless-stopped --name elastalert-docker -v /etc/elastalert:/opt/elastalert/config -v /etc/elastalert/rules:/opt/elastalert/rules -d selivan/elastalert-docker elastalert --pin_rules --start NOW
 ```
 
 ### docker-compose
@@ -38,13 +38,18 @@ docker run --init --user elastalert --restart=unless-stopped --name elastalert-d
 version: '3'
 services:
   elastalert-docker:
+    # Use to prevent Docker from messing with iptables rules
+    #network: host
     init: true
-    user: elastalert
+    # Get by command: id -u elastalert
+    user: 1002
     restart: unless-stopped
     image: selivan/elastalert-docker
+    command: --pin_rules --start NOW
     volumes:
       - /etc/elastalert:/opt/elastalert/config
       - /etc/elastalert/rules:/opt/elastalert/rules
+    # Log rotation
     logging:
       driver: "json-file"
       options:
@@ -52,3 +57,5 @@ services:
         max-file: "5"
         compress: "true"
 ```
+
+`config.yaml` should have entry `rules_folder: /opt/elastalert/rules`.
