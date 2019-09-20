@@ -37,7 +37,23 @@ docker run --init --user $(id -u elastalert) --restart=unless-stopped --name ela
 ```yaml
 version: '3'
 services:
-  elastalert-docker:
+  elastalert-create-index:
+    network_mode: host
+    init: true
+    user: "{{ elastalert_user_id }}"
+    restart: "no"
+    image: selivan/elastalert-docker
+    command: elastalert-create-index
+    volumes:
+      - /etc/elastalert:/opt/elastalert/config
+      - /etc/elastalert/rules:/opt/elastalert/rules
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+        compress: "true"
+  elastalert:
     # Use to prevent Docker from messing with iptables rules
     #network: host
     init: true
@@ -45,7 +61,7 @@ services:
     user: "1002"
     restart: unless-stopped
     image: selivan/elastalert-docker
-    command: --pin_rules --start NOW
+    command: elastalert --pin_rules --verbose --start NOW
     volumes:
       - /etc/elastalert:/opt/elastalert/config
       - /etc/elastalert/rules:/opt/elastalert/rules
