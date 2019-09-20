@@ -7,18 +7,16 @@ ARG ELASTALERT_VERSION=0.2.1
 
 RUN apk --update upgrade && \
     apk add gcc libffi-dev musl-dev python-dev openssl-dev tzdata libmagic && \
-    rm -rf /var/cache/apk/*
-
-RUN pip install elastalert==${ELASTALERT_VERSION} && \
+    rm -rf /var/cache/apk/* &&\
+    pip install elastalert==${ELASTALERT_VERSION} && \
     rm -fr /root/.pip/cache && \
-    apk del gcc libffi-dev musl-dev python-dev openssl-dev
-
-RUN mkdir -p /opt/elastalert/config && \
+    apk del gcc libffi-dev musl-dev python-dev openssl-dev && \
+    mkdir -p /opt/elastalert/config && \
     mkdir -p /opt/elastalert/rules
 
 ADD run.sh /opt/elastalert/run.sh
 
-RUN chmod a+x /opt/elastalert/run.sh
+RUN chmod a+rx /opt/elastalert/run.sh
 
 ENV TZ "UTC"
 
