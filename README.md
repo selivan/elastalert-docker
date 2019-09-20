@@ -38,9 +38,11 @@ docker run --init --user $(id -u elastalert) --restart=unless-stopped --name ela
 version: '3'
 services:
   elastalert-create-index:
-    network_mode: host
+    # Use to prevent Docker from messing with iptables rules
+    #network_mode: host
     init: true
-    user: "{{ elastalert_user_id }}"
+    # Get by command: id -u elastalert
+    user: "1002"
     restart: "no"
     image: selivan/elastalert-docker
     command: elastalert-create-index
