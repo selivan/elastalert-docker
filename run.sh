@@ -3,6 +3,7 @@ case "$1" in
     elastalert|elastalert-create-index|elastalert-test-rule)
         program="$1"
         shift
+        echo "$program" --config /opt/elastalert/config/config.yaml "$@"
         exec "$program" --config /opt/elastalert/config/config.yaml "$@"
         ;;
     *)
