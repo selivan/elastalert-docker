@@ -8,6 +8,7 @@ case "$1" in
         ;;
     *)
         echo "Usage: elastalert|elastalert-create-index|elastalert-test-rule [options]"
-        echo "Command will be invoked with --config and given options"
+        echo "Command will be invoked with --config /opt/elastalert/config/config.yaml and given options"
+	exit 1
         ;;
 esac
