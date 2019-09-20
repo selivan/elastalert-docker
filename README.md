@@ -16,9 +16,9 @@ docker build -t elastalert-docker --build-arg ELASTALERT_VERSION=0.2.1 .
 
 ## Running
 
-Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/config/config.yaml` option is always present and other parameters are passed as they are.
+Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/elastalert/config/config.yaml` option is always present and other parameters are passed as they are.
 
-I suggest to invoke `docker run` with `--init` option, that will properly forward signals and reap zombie processes(see [docs](https://docs.docker.com/compose/compose-file/#init)).
+I suggest to invoke `docker run` with `--init` option, that will properly forward signals and reap zombie processes(see Docker [docs](https://docs.docker.com/compose/compose-file/#init)).
 
 ### docker run
 
