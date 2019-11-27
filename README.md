@@ -1,6 +1,6 @@
 # ElastAlert-Docker
 
-This Dockerfile will build a Docker image of ElastAlert. It is based on https://github.com/jertel/elastalert-docker
+This Dockerfile will build a Docker image of [ElastAlert](https://github.com/Yelp/elastalert). It is based on https://github.com/jertel/elastalert-docker
 
 ## Docker Hub and staleness
 
