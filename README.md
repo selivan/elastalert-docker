@@ -1,10 +1,10 @@
 # ElastAlert-Docker
 
-This Dockerfile will build a Docker image of [ElastAlert](https://github.com/Yelp/elastalert). It is based on https://github.com/jertel/elastalert-docker
+This Dockerfile will build a Docker image of [ElastAlert](https://github.com/Yelp/elastalert). It is based on [jertel/elastalert-docker](https://github.com/jertel/elastalert-docker).
 
 ## Docker Hub and staleness
 
-The pre-built image is available at https://hub.docker.com/r/selivan/elastalert-docker. It is certainly going to become stale over time, so it is easier to build a fresh image localy.
+The pre-built image is available at DockerHub: [selivan/elastalert-docker](https://hub.docker.com/r/selivan/elastalert-docker). It is going to become stale over time, so it is easier for you to build a fresh image localy.
 
 ## Building localy
 
