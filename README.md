@@ -4,7 +4,7 @@ This Dockerfile will build a Docker image of [ElastAlert](https://github.com/Yel
 
 ## Docker Hub and staleness
 
-The pre-built image is available at DockerHub: [selivan/elastalert-docker](https://hub.docker.com/r/selivan/elastalert-docker). It is going to become stale over time, so it is easier for you to build a fresh image localy.
+The pre-built image is available at DockerHub: [selivan/elastalert-docker](https://hub.docker.com/r/selivan/elastalert-docker). It is going to become stale over time, so it is easier for you to build a fresh image locally.
 
 ## Building localy
 
