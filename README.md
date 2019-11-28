@@ -18,6 +18,8 @@ docker build -t elastalert-docker --build-arg ELASTALERT_GIT_BRANCH=master .
 
 Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/elastalert/config/config.yaml` option is always present and other parameters are passed as they are.
 
+Config file `config.yml` should have line `rules_folder: /opt/rules`.
+
 I suggest to invoke `docker run` with `--init` option, that will properly forward signals and reap zombie processes(see Docker [docs](https://docs.docker.com/compose/compose-file/#init)).
 
 ### docker run
@@ -26,11 +28,11 @@ I suggest to invoke `docker run` with `--init` option, that will properly forwar
 # Create user to run container
 adduser --disabled-password --home /nowhere --no-create-home elastalert
 # Create elastalert writeback index
-docker run --init --user $(id -u elastalert) -v /etc/elastalert:/opt/elastalert/config -v /etc/elastalert/rules:/opt/elastalert/rules --rm selivan/elastalert-docker elastalert-create-index
+docker run --init --user $(id -u elastalert) -v /etc/elastalert:/opt/config -v /etc/elastalert/rules:/opt/rules --rm selivan/elastalert-docker elastalert-create-index
 # See possible options
 docker run --init --user $(id -u elastalert) --rm selivan/elastalert-docker elastalert --help
 # Run elastalert
-docker run --init --user $(id -u elastalert) --restart=unless-stopped --name elastalert-docker -v /etc/elastalert:/opt/elastalert/config -v /etc/elastalert/rules:/opt/elastalert/rules -d selivan/elastalert-docker elastalert --pin_rules --start NOW
+docker run --init --user $(id -u elastalert) --restart=unless-stopped --name elastalert-docker -v /etc/elastalert:/opt/config -v /etc/elastalert/rules:/opt/rules -d selivan/elastalert-docker elastalert --pin_rules --start NOW
 ```
 
 ### docker-compose
@@ -50,8 +52,8 @@ services:
     image: selivan/elastalert-docker
     command: elastalert-create-index
     volumes:
-      - /etc/elastalert:/opt/elastalert/config
-      - /etc/elastalert/rules:/opt/elastalert/rules
+      - /etc/elastalert:/opt/config
+      - /etc/elastalert/rules:/opt/rules
     logging:
       driver: "json-file"
       options:
@@ -68,8 +70,8 @@ services:
     image: selivan/elastalert-docker
     command: elastalert --pin_rules --verbose --start NOW
     volumes:
-      - /etc/elastalert:/opt/elastalert/config
-      - /etc/elastalert/rules:/opt/elastalert/rules
+      - /etc/elastalert:/opt/config
+      - /etc/elastalert/rules:/opt/rules
     # Log rotation
     logging:
       driver: "json-file"
@@ -78,5 +80,3 @@ services:
         max-file: "5"
         compress: "true"
 ```
-
-`config.yaml` should have entry `rules_folder: /opt/elastalert/rules`.
