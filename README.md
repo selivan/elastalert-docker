@@ -16,7 +16,7 @@ docker build -t elastalert-docker --build-arg ELASTALERT_GIT_BRANCH=master .
 
 ## Running
 
-Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/elastalert/config/config.yaml` option is always present and other parameters are passed as they are.
+Executable name (one of `elastalert|elastalert-create-index|elastalert-test-rule`) should be the first parameter, `--config /opt/config/config.yaml` option is always present and other parameters are passed as they are.
 
 Config file `config.yml` should have line `rules_folder: /opt/rules`.
 
