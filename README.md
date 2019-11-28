@@ -11,7 +11,7 @@ The pre-built image is available at https://hub.docker.com/r/selivan/elastalert-
 To build, install Docker and then run the following command:
 
 ```
-docker build -t elastalert-docker --build-arg ELASTALERT_VERSION=0.2.1 .
+docker build -t elastalert-docker --build-arg ELASTALERT_GIT_BRANCH=master .
 ```
 
 ## Running
