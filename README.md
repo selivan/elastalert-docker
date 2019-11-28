@@ -28,7 +28,7 @@ I suggest to invoke `docker run` with `--init` option, that will properly forwar
 # Create user to run container
 adduser --disabled-password --home /nowhere --no-create-home elastalert
 # Create elastalert writeback index
-docker run --init --user $(id -u elastalert) -v /etc/elastalert:/opt/config -v /etc/elastalert/rules:/opt/rules --rm selivan/elastalert-docker elastalert-create-index
+docker run --rm --init --user $(id -u elastalert) -v /etc/elastalert:/opt/config -v /etc/elastalert/rules:/opt/rules selivan/elastalert-docker elastalert-create-index
 # See possible options
 docker run --init --user $(id -u elastalert) --rm selivan/elastalert-docker elastalert --help
 # Run elastalert
